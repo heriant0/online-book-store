@@ -48,3 +48,36 @@ func ConnectDB() (*sql.DB, error) {
 	return db, err
 
 }
+
+// fungsi dgunakan untuk menentukan mode dan instance object router
+func CreateRouter() *gin.Engine {
+	if MODE != "release" {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	// Menginstance object router
+	r := gin.Default()
+	return r
+}
+
+func InitRouter(db *sql.DB, r *gin.Engine) *Server {
+	return &Server{
+		DB:     db,
+		Router: r,
+	}
+}
+
+func (server *Server) InitializeRoutes() {
+	// Membuat sebuah group router
+	// r := server.Router.Group("v1")
+}
+
+func Run(r *gin.Engine) {
+	fmt.Println("Listening to port 8801")
+	err := r.Run(PORT)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}

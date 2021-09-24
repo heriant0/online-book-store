@@ -6,12 +6,16 @@ import (
 )
 
 func main() {
-	_, err := config.ConnectDB()
+	db, err := config.ConnectDB()
 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	
+	r:= config.CreateRouter()
+
+	config.InitRouter(db,r).InitializeRoutes()
+
+	config.Run(r)
 
 }
